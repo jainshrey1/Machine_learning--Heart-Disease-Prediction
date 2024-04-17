@@ -1,3 +1,13 @@
 scikit-learn
 imbalanced-learn
 matplotlib
+pandas
+dash
+plotly
+numpy
+gunicorn
+dash-bootstrap-components
+dash-mantine-components
+pyorbital
+pendulum
+icecream
