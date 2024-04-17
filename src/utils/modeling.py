@@ -4,26 +4,29 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
-from sklearn.impute import SimpleImputer, KNNImputer
+from sklearn.impute import SimpleImputer
 
 
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import ClusterCentroids
 
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
+import re
 
 from sklearn.metrics import f1_score,precision_score,recall_score,confusion_matrix,accuracy_score,cohen_kappa_score
 
 
-imputers = {"SimpleImputer":SimpleImputer}
+imputers_num = {"SimpleImputer_mean":SimpleImputer()}
+imputers_cat = {"SimpleImputer_mean":SimpleImputer(strategy='most_frequent')}
+
+imputers = [[["SimpleImputer_mean",SimpleImputer()],
+            ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]]]
 
 balancers = {"SMOTE":SMOTE,
              "ClusterCentroids":ClusterCentroids,
-             "None":None}
+             "OriginalData":None}
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
@@ -72,6 +75,14 @@ def train_model(path,target_var,path_to_save):
     
     df = pd.read_csv(path)
     
+    
+    try:
+        df = df[[col for col in df.columns if not re.match('TIME',col) and col not in ['RANDID','DEATH']]]
+    except:
+        pass
+    
+    print(df.shape)
+    
     features = list(df.columns)
     features.remove(target_var)
     df = df[features + [target_var]]
@@ -85,15 +96,20 @@ def train_model(path,target_var,path_to_save):
 
     
     
-    for i_name,imputer in imputers.items():
+    # for i_name,imputer in zip(imputers_cat.items(),imputers_num.items()):
+    
+    for imputer in imputers:
 
         ddf  = df.copy()
         x_cat = df[cat_varaibles].copy()
         x_num = df[num_varaiables].copy()
+        
+        # print(imputer)
+        # quit()
     
     
-        cat_imputer = imputer(strategy='most_frequent')
-        num_imputer = imputer()
+        num_imputer,cat_imputer = imputer[0][1],imputer[1][1]
+        num_imputer_name,cat_imputer_name = imputer[0][0],imputer[1][0]
         
         # impute
         x_cat = cat_imputer.fit_transform(x_cat)
@@ -110,7 +126,7 @@ def train_model(path,target_var,path_to_save):
             
             
             
-            if balancer is not None:
+            if b_name != 'OriginalData':
                 balancer = balancer()
                 
                 X,y = balancer.fit_resample(X,y)
@@ -129,10 +145,9 @@ def train_model(path,target_var,path_to_save):
             # train
             for m_name,model in algorithms.items():
                 
-                
                         
-                performance_df['ImputerCat'].append(i_name)
-                performance_df['ImputerNum'].append(i_name)
+                performance_df['ImputerCat'].append(cat_imputer_name)
+                performance_df['ImputerNum'].append(num_imputer_name)
         
                 
                 performance_df['Imbalance'].append(b_name)
@@ -148,7 +163,7 @@ def train_model(path,target_var,path_to_save):
                 acc = accuracy_score(y_train,y_pred)
                 f1 = f1_score(y_train,y_pred)
                 conf_matrix = confusion_matrix(y_train,y_pred)
-                tn, fp, fn, tp = conf_matrix.ravel()
+                tn, fp, fn, tp = [int(c) for c in conf_matrix.ravel()]
                 kappa_score = cohen_kappa_score(y_train,y_pred)
                 recall = recall_score(y_train,y_pred)
                 precision = precision_score(y_train,y_pred)
@@ -170,7 +185,7 @@ def train_model(path,target_var,path_to_save):
                 acc = accuracy_score(y_test,y_pred)
                 f1 = f1_score(y_test,y_pred)
                 conf_matrix = confusion_matrix(y_test,y_pred)
-                tn, fp, fn, tp = conf_matrix.ravel()
+                tn, fp, fn, tp = [int(c) for c in conf_matrix.ravel()]
                 kappa_score = cohen_kappa_score(y_test,y_pred)
                 recall = recall_score(y_test,y_pred)
                 precision = precision_score(y_test,y_pred)
@@ -187,8 +202,9 @@ def train_model(path,target_var,path_to_save):
               
                 
      
-    performance_df = pd.DataFrame(performance_df)            
+    performance_df = pd.DataFrame(performance_df).melt(id_vars=['Algorithm','ImputerNum','ImputerCat','Imbalance'],var_name='Metrics',value_name='Score')       
     performance_df.to_csv(path_to_save,index=False)
+    # performance_df.
     return performance_df
             
             
