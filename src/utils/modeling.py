@@ -15,7 +15,11 @@ from sklearn.model_selection import train_test_split
 
 import re
 
-from sklearn.metrics import f1_score,precision_score,recall_score,confusion_matrix,accuracy_score,cohen_kappa_score
+
+import sys
+sys.path.append("../")
+
+from utils.metrics import get_performances
 
 
 imputers_num = {"SimpleImputer_mean":SimpleImputer()}
@@ -62,6 +66,8 @@ def train_model(path,target_var,path_to_save):
                       "Train-FN":[],
                       "Train-Recall":[],
                       "Train-Precision":[],
+                      "Train-FalseNegative":[],
+                      "Train-FalsePositive":[],
                       "Test-F-1":[],
                       "Test-Accuracy":[],
                       "Test-Kappa":[],
@@ -70,7 +76,9 @@ def train_model(path,target_var,path_to_save):
                       "Test-TN":[],
                       "Test-FN":[],
                       "Test-Recall":[],
-                      "Test-Precision":[],}
+                      "Test-Precision":[],
+                      "Test-FalseNegative":[],
+                      "Test-FalsePositive":[],}
     
     
     df = pd.read_csv(path)
@@ -157,16 +165,13 @@ def train_model(path,target_var,path_to_save):
                 
                 model = model.fit(X_train,y_train)
                 
+                # train performance
+                
                 y_pred = model.predict(X_train)
                 
-                # train
-                acc = accuracy_score(y_train,y_pred)
-                f1 = f1_score(y_train,y_pred)
-                conf_matrix = confusion_matrix(y_train,y_pred)
-                tn, fp, fn, tp = [int(c) for c in conf_matrix.ravel()]
-                kappa_score = cohen_kappa_score(y_train,y_pred)
-                recall = recall_score(y_train,y_pred)
-                precision = precision_score(y_train,y_pred)
+                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performance(y_true=y_test,
+                                                                                          y_pred=y_pred)
+                
                 
                 performance_df['Train-Accuracy'].append(acc)
                 performance_df['Train-F-1'].append(f1)
@@ -176,19 +181,17 @@ def train_model(path,target_var,path_to_save):
                 performance_df['Train-TP'].append(tp) 
                 performance_df['Train-TN'].append(tn)               
                 performance_df['Train-FP'].append(fp)               
-                performance_df['Train-FN'].append(fn)               
+                performance_df['Train-FN'].append(fn)    
+                performance_df['Train-FalsePositive'].append(fpr)
+                performance_df['Train-FalseNegative'].append(fnr)           
               
-                # test
+                # test performance
                 
                 y_pred = model.predict(X_test)
 
-                acc = accuracy_score(y_test,y_pred)
-                f1 = f1_score(y_test,y_pred)
-                conf_matrix = confusion_matrix(y_test,y_pred)
-                tn, fp, fn, tp = [int(c) for c in conf_matrix.ravel()]
-                kappa_score = cohen_kappa_score(y_test,y_pred)
-                recall = recall_score(y_test,y_pred)
-                precision = precision_score(y_test,y_pred)
+
+                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performance(y_true=y_test,
+                                                                                          y_pred=y_pred)
                 
                 performance_df['Test-Accuracy'].append(acc)
                 performance_df['Test-F-1'].append(f1)
@@ -199,7 +202,8 @@ def train_model(path,target_var,path_to_save):
                 performance_df['Test-TN'].append(tn)               
                 performance_df['Test-FP'].append(fp)               
                 performance_df['Test-FN'].append(fn)               
-              
+                performance_df['Train-FalsePositive'].append(fpr)
+                performance_df['Train-FalseNegative'].append(fnr)   
                 
      
     performance_df = pd.DataFrame(performance_df).melt(id_vars=['Algorithm','ImputerNum','ImputerCat','Imbalance'],var_name='Metrics',value_name='Score')       
