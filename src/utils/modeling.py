@@ -7,8 +7,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.impute import SimpleImputer
 
 
-from imblearn.over_sampling import SMOTE
-from imblearn.under_sampling import ClusterCentroids
+from imblearn.over_sampling import SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,RandomOverSampler,SVMSMOTE
+from imblearn.under_sampling import ClusterCentroids,AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,InstanceHardnessThreshold,RandomUnderSampler
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -22,15 +22,22 @@ sys.path.append("../")
 from utils.metrics import get_performances
 
 
-imputers_num = {"SimpleImputer_mean":SimpleImputer()}
-imputers_cat = {"SimpleImputer_mean":SimpleImputer(strategy='most_frequent')}
+# imputers_num = {"SimpleImputer_mean":SimpleImputer()}
+# imputers_cat = {"SimpleImputer_mean":SimpleImputer(strategy='most_frequent')}
 
 imputers = [[["SimpleImputer_mean",SimpleImputer()],
             ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]]]
 
-balancers = {"SMOTE":SMOTE,
-             "ClusterCentroids":ClusterCentroids,
-             "OriginalData":None}
+# balancers = {"SMOTE":SMOTE,
+#              "ClusterCentroids":ClusterCentroids,
+#              "OriginalData":None,
+#              "ADASYN":ADASYN,
+#              ""}
+
+balancers = [SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
+             RandomOverSampler,SVMSMOTE,ClusterCentroids,None, #,\
+             AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
+             InstanceHardnessThreshold,RandomUnderSampler]
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
@@ -66,8 +73,8 @@ def train_model(path,target_var,path_to_save):
                       "Train-FN":[],
                       "Train-Recall":[],
                       "Train-Precision":[],
-                      "Train-FalseNegative":[],
-                      "Train-FalsePositive":[],
+                      "Train-FalseNegativeRate":[],
+                      "Train-FalsePositiveRate":[],
                       "Test-F-1":[],
                       "Test-Accuracy":[],
                       "Test-Kappa":[],
@@ -77,8 +84,8 @@ def train_model(path,target_var,path_to_save):
                       "Test-FN":[],
                       "Test-Recall":[],
                       "Test-Precision":[],
-                      "Test-FalseNegative":[],
-                      "Test-FalsePositive":[],}
+                      "Test-FalseNegativeRate":[],
+                      "Test-FalsePositiveRate":[],}
     
     
     df = pd.read_csv(path)
@@ -119,7 +126,8 @@ def train_model(path,target_var,path_to_save):
         num_imputer,cat_imputer = imputer[0][1],imputer[1][1]
         num_imputer_name,cat_imputer_name = imputer[0][0],imputer[1][0]
         
-        # impute
+        # impute, the first version of imputing was using entire data, the split
+        # this time we are going to split, then impute
         x_cat = cat_imputer.fit_transform(x_cat)
         x_num = num_imputer.fit_transform(x_num)
         
@@ -130,9 +138,13 @@ def train_model(path,target_var,path_to_save):
         X,y = ddf.iloc[:,:-1].values,ddf.iloc[:,-1].values
         
         # balance
-        for b_name,balancer in balancers.items():
+        for balancer in balancers:
             
             
+            try:
+                b_name = balancer.__name__
+            except:
+                b_name = 'OriginalData'
             
             if b_name != 'OriginalData':
                 balancer = balancer()
@@ -169,7 +181,7 @@ def train_model(path,target_var,path_to_save):
                 
                 y_pred = model.predict(X_train)
                 
-                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performance(y_true=y_test,
+                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performances(y_true=y_train,
                                                                                           y_pred=y_pred)
                 
                 
@@ -182,15 +194,15 @@ def train_model(path,target_var,path_to_save):
                 performance_df['Train-TN'].append(tn)               
                 performance_df['Train-FP'].append(fp)               
                 performance_df['Train-FN'].append(fn)    
-                performance_df['Train-FalsePositive'].append(fpr)
-                performance_df['Train-FalseNegative'].append(fnr)           
+                performance_df['Train-FalsePositiveRate'].append(fpr)
+                performance_df['Train-FalseNegativeRate'].append(fnr)           
               
                 # test performance
                 
                 y_pred = model.predict(X_test)
 
 
-                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performance(y_true=y_test,
+                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performances(y_true=y_test,
                                                                                           y_pred=y_pred)
                 
                 performance_df['Test-Accuracy'].append(acc)
@@ -202,8 +214,8 @@ def train_model(path,target_var,path_to_save):
                 performance_df['Test-TN'].append(tn)               
                 performance_df['Test-FP'].append(fp)               
                 performance_df['Test-FN'].append(fn)               
-                performance_df['Train-FalsePositive'].append(fpr)
-                performance_df['Train-FalseNegative'].append(fnr)   
+                performance_df['Test-FalsePositiveRate'].append(fpr)
+                performance_df['Test-FalseNegativeRate'].append(fnr)   
                 
      
     performance_df = pd.DataFrame(performance_df).melt(id_vars=['Algorithm','ImputerNum','ImputerCat','Imbalance'],var_name='Metrics',value_name='Score')       
