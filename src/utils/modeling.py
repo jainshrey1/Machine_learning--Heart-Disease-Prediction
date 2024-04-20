@@ -35,9 +35,9 @@ imputers = [[["SimpleImputer_mean",SimpleImputer()],
 #              ""}
 
 balancers = [SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
-             RandomOverSampler,SVMSMOTE,ClusterCentroids,None] #,\
-            #  AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
-            #  InstanceHardnessThreshold,RandomUnderSampler]
+             RandomOverSampler,SVMSMOTE,ClusterCentroids,None, #,\
+             AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
+             InstanceHardnessThreshold,RandomUnderSampler]
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
