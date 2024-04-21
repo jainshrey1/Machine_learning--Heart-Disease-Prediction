@@ -4,7 +4,7 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
-from sklearn.impute import SimpleImputer
+from sklearn.impute import SimpleImputer,KNNImputer
 
 
 from imblearn.over_sampling import SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,RandomOverSampler,SVMSMOTE
@@ -25,8 +25,16 @@ from utils.metrics import get_performances
 # imputers_num = {"SimpleImputer_mean":SimpleImputer()}
 # imputers_cat = {"SimpleImputer_mean":SimpleImputer(strategy='most_frequent')}
 
-imputers = [[["SimpleImputer_mean",SimpleImputer()],
-            ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]]]
+imputers = [
+    [
+        ["SimpleImputer_mean",SimpleImputer()],
+        ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]
+    ],
+    [
+        ["KNNImpuer",KNNImputer()],
+        ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]
+    ]
+        ]
 
 # balancers = {"SMOTE":SMOTE,
 #              "ClusterCentroids":ClusterCentroids,
