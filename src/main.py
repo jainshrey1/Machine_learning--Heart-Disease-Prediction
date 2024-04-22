@@ -1,4 +1,4 @@
-from utils.modeling import train_model
+from utils.search_model import train_model
 from utils.visual import make_plots
 import pandas as pd
 
