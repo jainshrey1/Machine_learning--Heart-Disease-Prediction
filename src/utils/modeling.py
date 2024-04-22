@@ -47,6 +47,9 @@ balancers = [SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
              AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
              InstanceHardnessThreshold,RandomUnderSampler]
 
+
+balancers = [SMOTE,ADASYN,None,ClusterCentroids]
+
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
           "NaiveBayes":GaussianNB(),
