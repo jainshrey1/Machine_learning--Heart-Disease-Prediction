@@ -31,7 +31,7 @@ imputers = [
         ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]
     ],
     [
-        ["KNNImpuer",KNNImputer()],
+        ["KNNImptuer",KNNImputer()],
         ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]
     ]
         ]
