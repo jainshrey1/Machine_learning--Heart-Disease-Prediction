@@ -10,7 +10,7 @@ false_positive_rate = lambda fp,tn: round((fp)/(fp+tn),2) # number of false posi
 false_negative_rate = lambda fn,tp: round((fn)/(fn+tp),2) # number of false negatives devided by total number of positives
  
 
-def get_performances(y_true,y_pred):
+def get_performances(y_true,y_pred,return_dict = False):
     
     acc = accuracy_score(y_true,y_pred)
     f1 = f1_score(y_true,y_pred)
@@ -23,4 +23,13 @@ def get_performances(y_true,y_pred):
     fnr = false_negative_rate(fn,tp)    
 
 
-    return acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr
+    output = list(map(lambda x: round(x*100,2),[acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr]))
+    
+    if return_dict:
+        
+        metrics = ['Accuracy','F-1','True Negative','False Positive','False Negative','True Positive','Kappa','Recall','Precision','False Postive Rate','False Negative Rate']
+        
+        output = {metrics[i]:[output[i]] for i in range(len(output))}
+        
+    
+    return output
