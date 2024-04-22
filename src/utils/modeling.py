@@ -31,7 +31,7 @@ imputers = [
         ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]
     ],
     [
-        ["KNNImpuer",KNNImputer()],
+        ["KNNImptuer",KNNImputer()],
         ["SimpleImputer_mode",SimpleImputer(strategy='most_frequent')]
     ]
         ]
@@ -46,6 +46,9 @@ balancers = [SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
              RandomOverSampler,SVMSMOTE,ClusterCentroids,None, #,\
              AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
              InstanceHardnessThreshold,RandomUnderSampler]
+
+
+balancers = [SMOTE,ADASYN,None,ClusterCentroids]
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),

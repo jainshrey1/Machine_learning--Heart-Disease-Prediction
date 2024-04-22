@@ -9,7 +9,7 @@ if __name__ == "__main__":
     
     # X,y = 
     
-    train_model("../data/initial_data/frmgham2_project_data.csv",'CVD','../src/results/first_attempt_result.csv')
+    train_model("../data/initial_data/frmgham2_project_data.csv",'CVD','../src/results/first_attempt_result_4_balancers.csv')
     
     
     # make_plots("../src/results/first_attempt_result.csv")
