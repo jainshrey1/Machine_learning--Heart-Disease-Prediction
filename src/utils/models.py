@@ -145,9 +145,6 @@ def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_
         os.chdir("./utils")
         
 
-    """
-    Pipeline with GridSearch to find the best LogRegression model
-    """
    
     
     # get the data ready for modeling
