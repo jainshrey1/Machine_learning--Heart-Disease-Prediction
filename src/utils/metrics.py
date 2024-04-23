@@ -23,7 +23,7 @@ def get_performances(y_true,y_pred,return_dict = False):
     fnr = false_negative_rate(fn,tp)    
 
 
-    output = list(map(lambda x: round(x*100,2),[acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr]))
+    output = list(map(lambda x: round(x*100,2),[acc,f1,tn/100,fp/100,fn/100,tp/100,kappa_score,recall,precision,fpr/100,fnr/100]))
     
     if return_dict:
         

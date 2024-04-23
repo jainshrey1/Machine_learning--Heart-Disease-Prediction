@@ -1,98 +1,167 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 from itertools import product
 import pandas as pd
 
 
 from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import ClusterCentroids
 from sklearn.impute import KNNImputer,SimpleImputer
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-import re
 import json
 import shutil
 import os
 
 from sklearn.metrics  import cohen_kappa_score
-from metrics import  get_performances
 
+import sys
 
+from joblib import dump
 
-def logistic_regression(path,balancer,path_to_save,perf_file_name=None,param_file_name=None,target='CVD',test_size=.2,**imputer):
+sys.path.append("../")
+from utils.metrics import  get_performances
+from utils.data_preparation import balance_impute_data
+
+def get_params(algoritm=None):
+    
+    
+    """
+    This functions is a container for all hyperparameters combinations for the algorithms.
+    The only parameter is the algorithm name. 
+    
+    Parameters:
+    -----------
+    algorithm: str
+        The name of the algorithm. The default value is None. The name should be the same as the algorithm name in sklearn.
+        The opitions are:
+            - LogisticRegression
+            - DecisionTreeClassifier
+            - SVC
+            - KNeighborsClassifier
+    Returns:
+    --------
+    list of dicts
+        A list of dictionaries with hyperparameters combinates for the algorithm (list of dicts). 
+    """
     
     
     
+    
+    # this lambda functions create a list of dictionaries for hyperparameters combinations
+    get_param_dict = lambda names,params: [{names[j]:params_comb[j] for j in range(len(names))} for params_comb in params]
+    
+    match algoritm:
+        case "LogisticRegression":
+            
+            # logistic regression
+            log_penalties = ['l1', 'l2', 'elasticnet', None]
+            log_Cs =  [0.01, 0.1, .3, .5, 1]
+            log_solvers = ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
+            log_max_iters = [100,1000,10000]
+            log_l1_ratios = np.linspace(0.1,1,5,endpoint=True)
+
+
+
+            log_params = list(product(log_penalties,log_Cs,log_solvers,log_max_iters,log_l1_ratios))
+            log_params_names = ["penalty","C","solver","max_iter","l1_ratio"]
+
+            log_params_dict = get_param_dict(log_params_names,log_params)
+            
+            return log_params_dict
+        
+        case "DecisionTreeClassifier":
+            
+            # decision tree
+            tree_criterion = ["gini", "entropy", "log_loss"]
+            tree_splitter = ["best", "random"]
+            tree_max_depth = [2,4,6,8]
+            tree_min_samples_split = [11,21,31]
+            tree_min_samples_leaf = [3,5,7]
+            tree_max_features = [10,15,"sqrt", "log2"]
+            tree_random_state = [123,None]
+
+            tree_params = list(product(tree_criterion,tree_splitter,tree_max_depth,tree_min_samples_split,
+                                            tree_min_samples_leaf,tree_max_features,tree_random_state))
+
+
+            tree_params_names = ["criterion","splitter","max_depth","min_samples_split","min_samples_leaf","max_features","random_state"]
+
+
+            tree_params_dict = get_param_dict(tree_params_names,tree_params)
+            
+            return tree_params_dict
+        
+        case "SVC":
+            
+    
+            # svm
+            svm_C = [.3,.5,1.,2.]
+            svm_kernel = ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']
+            svm_degree = [2,3,4]
+            svm_gamma = ['scale', 'auto']
+            svm_coef0 = [0,.1,.3,.5]
+            svm_decision_function_shape = ['ovo', 'ovr']
+            svm_random_state = [123,None]
+            
+            svm_params = list(product(svm_C,svm_kernel,svm_degree,svm_gamma,svm_coef0,svm_decision_function_shape,svm_random_state))
+            svm_params_names = ["C","kernel","degree","gamma","coef0","decision_function_shape","random_state"]
+            
+            svm_params_dict = get_param_dict(svm_params_names,svm_params)
+            
+            return svm_params_dict
+        
+        case "KNeighborsClassifier":
+            
+            # knn
+            
+            knn_n_neighbors = [5,7,10]
+            knn_weights = ['uniform', 'distance']
+            knn_algorithm = ['auto', 'ball_tree', 'kd_tree', 'brute']
+            knn_p = [1,2,3]
+            
+            knn_params =list(product(knn_n_neighbors,knn_weights,knn_algorithm,knn_p))
+            knn_params_names = ['n_neighbors','weights','algorithm','p']
+            
+            knn_params_dict = get_param_dict(knn_params_names,knn_params)
+
+            
+            return knn_params_dict
+
+
+        case _:
+            
+            raise ValueError("The algorithm name is not valid. \nPlease provide a valid algorithm name from the following list: \n\t['LogisticRegression', 'DecisionTreeClassifier', 'SVC', 'KNeighborsClassifier']")
+
+def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_file_name=None,param_file_name=None,**imputer):
+    
+    
+    
+    
+    # to avoid relative path erros, change working direcoty to main for this file
+    if __name__ != "__main__":
+        # print("Yes")
+        os.chdir("./utils")
+        
+
     """
     Pipeline with GridSearch to find the best LogRegression model
     """
-    df = pd.read_csv(path)
+   
     
-    try:
-        df = df[[col for col in df.columns if not re.match('TIME',col) and col not in ['RANDID','DEATH']]]
-    except:
-        pass
-    features = list(df.columns)
-    features.remove(target)
-    counts = df[features].nunique().to_frame().reset_index().rename(columns={"index":"Feature",0:"N Uniques"})
+    # get the data ready for modeling
     
-    cat_varaibles = counts[counts['N Uniques'] < 5]['Feature'].values
-    num_varaiables = counts[counts['N Uniques'] > 5]['Feature'].values
+    X_train,X_test,y_train,y_test,cat_imputer_name,num_imputer_name,balancer_name = balance_impute_data(data_path = data_path,
+                                                                                                        balancer=balancer,
+                                                                                                        imputer=imputer,
+                                                                                                        test_size=test_size,
+                                                                                                        target=target)
     
-    # prepare data
-    
-    ddf  = df.copy()
-    x_cat = df[cat_varaibles].copy()
-    x_num = df[num_varaiables].copy()
-        
+    algorithm_name = algorithm.__name__
+    parameters = get_params(algorithm_name)
 
-    # impute missings
-    
-    imputer = list(imputer.items())
-    num_imputer_name,num_imputer = imputer[0]
-    cat_imputer_name,cat_imputer = imputer[1]    
-    # impute, the first version of imputing was using entire data, the split
-    # this time we are going to split, then impute
-    x_cat = cat_imputer.fit_transform(x_cat)
-    x_num = num_imputer.fit_transform(x_num)
-    
-    # 
-    ddf[cat_varaibles] = x_cat
-    ddf[num_varaiables] = x_num
-    
-    X,y = ddf[features].values,ddf[target].values
-        
-        
-    # balance
-    
-    balancer_name = balancer.__name__
-    balancer = balancer()
-    X,y = balancer.fit_resample(X,y)
-    
-    
-    # split
-    X_train,X_test,y_train,y_test = train_test_split(X,y,random_state=123,test_size=test_size)
 
-    # scale
-    scaler = StandardScaler()
-    
-    scaler = scaler.fit(X_train)
-    X_train = scaler.transform(X_train)
-    X_test = scaler.transform(X_test)
-    
-    
-    
-    penalties = ['l1', 'l2', 'elasticnet', None]
-    # duals = [True,False]
-    Cs =  [0.01, 0.1, .3, .5, 1]
-    # fit_intercept = True,False
-    solvers = ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
-    max_iters = [100,1000,10000]
-    l1_ratios = np.linspace(0.1,1,5,endpoint=True)
-    
-    
-    parameters = list(product(penalties,Cs,solvers,max_iters,l1_ratios))
-    
     n_params = len(parameters)
     
     
@@ -101,9 +170,11 @@ def logistic_regression(path,balancer,path_to_save,perf_file_name=None,param_fil
         
     for i,param in enumerate(parameters):
         
-        penalty,c,solver,max_iter,l1_ratio = param
+
         
-        model = LogisticRegression(penalty=penalty,C=c,solver=solver,max_iter=max_iter,l1_ratio=l1_ratio)
+        model = algorithm().set_params(**param)
+
+        
         
         try:
             model = model.fit(X_train,y_train)
@@ -113,9 +184,7 @@ def logistic_regression(path,balancer,path_to_save,perf_file_name=None,param_fil
         
         
         y_pred_test = model.predict(X_test)
-        
-        # acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performances(y_pred=y_pred_test,y_true=y_test)
-        
+            
         
         y_pred_train = model.predict(X_train)
         
@@ -128,19 +197,19 @@ def logistic_regression(path,balancer,path_to_save,perf_file_name=None,param_fil
             best_kappa = kappa_test
             best_params = model.get_params()
         
-        print(f"{'-'*20} {i+1}/{n_params}[Train Kappa: {kappa_train}, Test Kappa: {kappa_test}]{'-'*20}")
+        print(f"{'-'*20} {i+1}/{n_params} {algorithm_name}:[Train Kappa: {kappa_train}, Test Kappa: {kappa_test}]{'-'*20}")
+        
     
     # best model
     
-    best_model = LogisticRegression().set_params(**best_params)
+    best_model = algorithm().set_params(**best_params)
     
-    model = model.fit(X_train,y_train)
+    model = best_model.fit(X_train,y_train)
     
     # test performance
     test_prediction = model.predict(X_test)
     
     output_test = get_performances(y_pred=test_prediction,y_true=y_test,return_dict=True)
-    
     output_test = pd.DataFrame(output_test).T.reset_index().rename(columns={"index":"Metric",0:"Score"})
     output_test['Set'] = 'Test'
     
@@ -148,58 +217,65 @@ def logistic_regression(path,balancer,path_to_save,perf_file_name=None,param_fil
     train_prediction = model.predict(X_train)
     
     output_train = get_performances(y_pred=train_prediction,y_true=y_train,return_dict=True)
-    output_train = pd.DataFrame(output_test).T.reset_index().rename(columns={"index":"Metric",0:"Score"})
+    output_train = pd.DataFrame(output_train).T.reset_index().rename(columns={"index":"Metric",0:"Score"})
     output_train['Set'] = 'Train'
     
     
     output = pd.concat([output_train,output_test])
-    output['Algorithm'] = 'LogisticRegression'
+    
+
+    output['Algorithm'] = algorithm_name
     output['ImputerCat'] = cat_imputer_name
     output['ImputerNum'] = num_imputer_name
-    output['Imbalance'] = balancer    
+    output['Imbalance'] = balancer_name    
     
-
-
-
-    if not os.path.exists(path_to_save):
-        
-        os.makedirs(path_to_save)
-        
-    else:
-        
-        answer = input("Path exists, do you want ovewrite it (y/...)")
-        
-        if answer == "y":
-            
-            shutil.rmtree(path_to_save)
-            os.makedirs(path_to_save)
-            
     
-    perf_file_name = "log_regression_best_model_output.csv" if perf_file_name is None else perf_file_name
-    param_file_name = "log_regression_best_model_param.json" if param_file_name is None else param_file_name
+    output = output[['Algorithm','Imbalance','ImputerCat','ImputerNum','Set','Metric','Score']]
 
-    output.to_csv(os.path.join(path_to_save,perf_file_name),index=False)
+
+    # save the best model
+    model_path = os.path.join("../models")
+    if not os.path.exists(model_path):
+        
+        os.makedirs(model_path)
+        
+    dump(model,os.path.join(model_path,algorithm_name+"best_model.pkl"))
+
+    # perf_file_name = "log_regression_best_model_output.csv" if perf_file_name is None else perf_file_name
+    # param_file_name = "log_regression_best_model_param.json" if param_file_name is None else param_file_name
+    perf_file_name = os.path.join("../results/",algorithm_name)
+    param_file_name = os.path.join("../results/",algorithm_name)
     
-    with open(os.path.join(path_to_save,param_file_name), 'w') as file:
+    if not os.path.exists(perf_file_name):
+        
+        os.makedirs(perf_file_name)
+    if not os.path.exists(param_file_name):
+        
+        os.makedirs(param_file_name)
+        
+    output.to_csv(os.path.join(perf_file_name,algorithm_name+"best_model_perfomance.csv"),index=False)
+
+    
+    output.to_csv(os.path.join(perf_file_name,algorithm_name+"best_model_perfomance.csv"),index=False)
+    
+    with open(os.path.join(param_file_name,algorithm_name+"best_model_params.json"), 'w') as file:
         
         json.dump(best_params,file)
         
         
-    print("Logist regression hyperparametere tuning was done!!")
-
-
+    print(f"{algorithm_name} hyperparameter tuning was done!!")
     
+    return best_model,best_params,output
+
+
+
+        
 if __name__ == "__main__":
     
     
     
-    path_to_save = "../results/log_reg/"
-    
-
-    
-    logistic_regression(path="../../data/initial_data/frmgham2_project_data.csv",
-                        path_to_save=path_to_save,balancer=SMOTE,test_size=.2,KNNImputer = KNNImputer(),SimpleImputer = SimpleImputer(strategy='most_frequent'))
-    
+    find_best_model(SVC,data_path="../../data/initial_data/frmgham2_project_data.csv",
+                    balancer=SMOTE,test_size=.2,SimpleImputer_mean = SimpleImputer(),SimpleImputer_mode = SimpleImputer(strategy='most_frequent'))
     
     
     
