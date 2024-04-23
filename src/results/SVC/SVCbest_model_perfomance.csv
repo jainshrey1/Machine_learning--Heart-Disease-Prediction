@@ -1,0 +1,23 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,96.99
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,96.95
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,6880.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,107.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,313.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,6664.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,93.98
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,95.51
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,98.42
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.02
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.04
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.37
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.35
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,1713.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,28.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,64.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,1687.0
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,94.73
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,96.34
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,98.37
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.02
+SVC,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.04
