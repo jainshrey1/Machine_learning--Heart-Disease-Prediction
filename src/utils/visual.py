@@ -1,5 +1,9 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+"""
+To make visualization process easier and simple, we have coded functions for each type of visualization.
+Here plotnine package is used to create the plots. plotnine is a Python package allowing to create 'ggplot2' like plots.
+
+"""
+
 from plotnine import *
 
 
@@ -7,6 +11,20 @@ from plotnine import *
 
 def plot_for_each_algorithm(df):
 
+
+    """
+    This function plots the performance of each algorithm for each impution and data balancing approach.
+    
+    
+    Parameters:
+    -----------
+    df: pd.DataFrame
+        The dataframe with the results.
+        
+    Returns:
+    --------
+    None
+    """
 
     algoritms = df.Algorithm.unique()
 
@@ -39,6 +57,20 @@ def plot_for_each_algorithm(df):
 def plot_for_each_balancer(df):
 
 
+    """
+    This function plots the performance of each balancing technique for each impution and algorithm.
+    
+    Parameters:
+    -----------
+    df: pd.DataFrame
+        The dataframe with the results.
+        
+    Returns:
+    --------
+    None
+
+    """
+
     balancers = df.Imbalance.unique()
 
     
@@ -67,6 +99,19 @@ def plot_for_each_balancer(df):
 
 def plot_for_each_performance_metric(df):
 
+
+    """
+    The function plots the performance of each metric for each imputation, balancing and algorithm combination.
+    
+    Parameters:
+    -----------
+    df: pd.DataFrame
+        The dataframe with the results.
+        
+    Returns:
+    --------
+    None
+    """
     metrics = df.MainMetric.unique()
     
     for met in metrics:

@@ -1,7 +1,7 @@
 
 
 """
-This file contains functions to prepare data for modeling
+This file contains functions to prepare data for modeling.
 
 """
 
@@ -16,8 +16,28 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
     
     
     """
-    
-    
+    This function prepares data for modeling. 
+    It reads the data, imputes the missing values, balances the data, scales the data, and splits the data into train and test sets.
+
+
+    Parameters:
+    -----------
+    data_path: str
+        The path to the data.  
+    balancer: class
+        The balancing technique. This should be a class from imblearn.over_sampling or imblearn.under_sampling.
+    imputer: dict
+        The imputation techniques. This should be a dictionary with two keys: one for numerical imputation and one for categorical imputation.
+        The imputer value should be a class from sklearn.impute and already instantiated.
+    test_size: float
+        The size of the test set. The default value is .2
+    target: str
+        The target variable. The default value is 'CVD'
+        
+    Returns:
+    --------
+    tuple
+        A tuple with the train and test sets and the names of the imputers and balancer.  
     """
     
     

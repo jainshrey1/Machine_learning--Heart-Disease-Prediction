@@ -1,3 +1,8 @@
+"""
+This file contains functions to train and evaluate models. The aim of main function is 
+to train and evaluate models using different imputation techniques, balancing techniques and algorithms. 
+"""
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
@@ -74,7 +79,25 @@ def train_model(path,target_var,path_to_save):
     
     """
     
+    This function trains and evaluates models using different imputation techniques, balancing techniques and algorithms.
+    The aim of this function is to compare the performance of different models using different techniques, and to find the best combination of techniques.
+    This is not model optimization, but a way to have a high level view of the data and the models.
     
+    
+    Parameters:
+    -----------
+    path: str
+        The path to the data.
+    target_var: str
+        The target variable.
+    path_to_save: str
+        The path to save the results.
+        
+        
+    Returns:
+    --------
+    pd.DataFrame
+        A dataframe with the results.
     """
     
     performance_df = {"Imputer":[],
