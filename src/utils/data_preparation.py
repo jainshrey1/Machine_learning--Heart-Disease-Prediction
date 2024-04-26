@@ -69,9 +69,9 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
 
     # impute missings
     
-    imputer = list(imputer.items())
-    num_imputer_name,num_imputer = imputer[0]
-    cat_imputer_name,cat_imputer = imputer[1]    
+    # imputer = list(imputer.items())
+    num_imputer_name,num_imputer = imputer[0],imputer[1]
+    cat_imputer_name,cat_imputer = imputer[2],imputer[3]    
     # impute, the first version of imputing was using entire data, the split
     # this time we are going to split, then impute
     x_cat = cat_imputer.fit_transform(x_cat)
