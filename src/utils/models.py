@@ -134,7 +134,7 @@ def get_params(algoritm=None):
             
             raise ValueError("The algorithm name is not valid. \nPlease provide a valid algorithm name from the following list: \n\t['LogisticRegression', 'DecisionTreeClassifier', 'SVC', 'KNeighborsClassifier']")
 
-def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_file_name=None,param_file_name=None,**imputer):
+def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_file_name=None,param_file_name=None,imputer=None):
     
     
     
