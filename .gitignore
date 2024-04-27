@@ -1,5 +1,5 @@
 **/__pychace__/
 **/ipynb_checkpoints
 .idea
-./src/models
-./src/results
+./src/models/
+./src/results/

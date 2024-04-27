@@ -1,0 +1,23 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Accuracy,100.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,F-1,100.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Negative,6987.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Positive,0.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative,0.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Positive,6977.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Kappa,100.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Recall,100.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Precision,100.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Postive Rate,0.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative Rate,0.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Accuracy,97.68
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,F-1,97.69
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Negative,1695.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Positive,46.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative,35.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Positive,1716.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Kappa,95.36
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Recall,98.0
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Precision,97.39
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Postive Rate,0.03
+KNeighborsClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative Rate,0.02

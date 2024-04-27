@@ -142,7 +142,10 @@ def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_
     # to avoid relative path erros, change working direcoty to main for this file
     if __name__ != "__main__":
         # print("Yes")
-        os.chdir("./utils")
+        try:
+            os.chdir("./utils")
+        except:
+            pass
         
 
    
