@@ -11,3 +11,4 @@ dash-mantine-components
 pyorbital
 pendulum
 icecream
+smote-variants
