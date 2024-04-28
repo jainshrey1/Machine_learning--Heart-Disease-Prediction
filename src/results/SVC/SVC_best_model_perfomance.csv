@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Accuracy,98.73
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,F-1,98.73
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,True Negative,6842.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Positive,145.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative,33.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,True Positive,6944.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Kappa,97.45
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Recall,99.53
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Precision,97.95
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Postive Rate,0.02
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative Rate,0.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,AUC,98.73
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Accuracy,97.37
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,F-1,97.41
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,True Negative,1672.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Positive,69.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative,23.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,True Positive,1728.0
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Kappa,94.73
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Recall,98.69
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Precision,96.16
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Postive Rate,0.04
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative Rate,0.01
+SVC,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,AUC,97.36

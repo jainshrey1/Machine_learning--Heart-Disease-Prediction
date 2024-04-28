@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,100.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,100.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,6987.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,0.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,0.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,6977.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,100.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,100.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,100.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,AUC,100.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.62
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.62
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,1707.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,34.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,49.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,1702.0
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,95.25
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,97.2
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,98.04
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.02
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.03
+BaggingClassifier,SMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,AUC,97.62

@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,98.17
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,98.16
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,6891.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,96.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,160.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,6817.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,96.33
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,97.71
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,98.61
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.01
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.02
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Train,AUC,98.17
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,98.05
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,98.06
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,1708.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,33.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,35.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,1716.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,96.11
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,98.0
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,98.11
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.02
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.02
+GradientBoostingClassifier,MWMOTE,SimpleImputer_mode,SimpleImputer_mean,Test,AUC,98.05

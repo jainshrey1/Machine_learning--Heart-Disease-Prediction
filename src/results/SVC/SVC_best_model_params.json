@@ -1,0 +1,1 @@
+{"C": 0.5, "break_ties": false, "cache_size": 200, "class_weight": null, "coef0": 0.1, "decision_function_shape": "ovo", "degree": 4, "gamma": "auto", "kernel": "poly", "max_iter": -1, "probability": false, "random_state": 123, "shrinking": true, "tol": 0.001, "verbose": false}

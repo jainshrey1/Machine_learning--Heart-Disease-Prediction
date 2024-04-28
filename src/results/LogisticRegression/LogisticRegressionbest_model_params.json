@@ -1,1 +1,0 @@
-{"C": 0.01, "class_weight": null, "dual": false, "fit_intercept": true, "intercept_scaling": 1, "l1_ratio": 0.775, "max_iter": 100, "multi_class": "auto", "n_jobs": null, "penalty": "elasticnet", "random_state": null, "solver": "saga", "tol": 0.0001, "verbose": 0, "warm_start": false}

@@ -11,6 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 
 from sklearn.impute import SimpleImputer,KNNImputer
+from IPython.display import display 
 
 
 from imblearn.over_sampling import SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,RandomOverSampler,SVMSMOTE
@@ -44,19 +45,9 @@ imputers = [
     ]
         ]
 
-# balancers = {"SMOTE":SMOTE,
-#              "ClusterCentroids":ClusterCentroids,
-#              "OriginalData":None,
-#              "ADASYN":ADASYN,
-#              ""}
-
-# balancers = [MWMOTE,SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
-#              RandomOverSampler,SVMSMOTE,ClusterCentroids,None, #,\
-#              AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
-#              InstanceHardnessThreshold,RandomUnderSampler]
 
 
-balancers = [SMOTE,ADASYN,None,ClusterCentroids,MWMOTE]
+balancers = [SMOTE,MWMOTE,ADASYN,None,AllKNN]
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
@@ -214,12 +205,8 @@ def train_models(path,target_var,path_to_save):
             for m_name,model in algorithms.items():
                 
                         
-                performance_df['Imputer'].append(num_imputer_name + "__"+cat_imputer_name)
-        
-                
+                performance_df['Imputer'].append(num_imputer_name + "__"+cat_imputer_name)                
                 performance_df['Imbalance'].append(b_name)
-
-                
                 performance_df['Algorithm'].append(m_name)
                 
                 model = model.fit(X_train,y_train)
@@ -266,8 +253,32 @@ def train_models(path,target_var,path_to_save):
                 performance_df['Test-FalsePositiveRate'].append(fpr)
                 performance_df['Test-FalseNegativeRate'].append(fnr)   
                 
+                
      
-    performance_df = pd.DataFrame(performance_df).melt(id_vars=['Algorithm','Imputer','Imbalance'],var_name='Metric',value_name='Score')       
+    performance_df = pd.DataFrame(performance_df).melt(id_vars=['Algorithm','Imputer','Imbalance'],var_name='Metric',value_name='Score') 
+    
+        
+    
+    # for now, we are not going to use the confusion matrix values
+    performance_df = performance_df[performance_df['Metric'].apply(lambda x: False if x.split("-")[1] in ['TP','TN','FP','FN','FalsePositiveRate','FalseNegativeRate'] else True)]
+    
+    performance_df['Score'] = round(performance_df['Score'],2)
+
+    performance_df['Set'] = performance_df['Metric'].apply(lambda x: x.split("-")[0])
+  
+    metrics_map = {}
+
+    for met in performance_df.Metric.unique():
+
+        if met in ['Train-F-1','Test-F-1']:
+            val = 'F-1'
+        else:
+            val = met.split("-")[1]
+
+        metrics_map[met] = val
+        
+    performance_df['MainMetric'] = performance_df['Metric'].map(metrics_map)
+
     performance_df.to_csv(path_to_save,index=False)
     # performance_df.
     return performance_df
@@ -275,15 +286,3 @@ def train_models(path,target_var,path_to_save):
             
             
             
-        
-        
-    
-    # if categorical, imputation techniques changes
-    
-    
-    
-    
-    pass
-    
-    
-    

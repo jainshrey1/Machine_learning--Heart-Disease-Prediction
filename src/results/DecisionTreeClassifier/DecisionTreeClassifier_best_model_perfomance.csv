@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Accuracy,92.01
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,F-1,91.85
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,True Negative,6561.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Positive,426.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative,690.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,True Positive,6287.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Kappa,84.02
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Recall,90.11
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,Precision,93.65
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Postive Rate,0.06
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative Rate,0.1
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Train,AUC,92.01
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Accuracy,91.47
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,F-1,91.35
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,True Negative,1621.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Positive,120.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative,178.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,True Positive,1573.0
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Kappa,82.93
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Recall,89.83
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,Precision,92.91
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Postive Rate,0.07
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative Rate,0.1
+DecisionTreeClassifier,MWMOTE,SimpleImputer_mode,KNNImptuer,Test,AUC,91.47
