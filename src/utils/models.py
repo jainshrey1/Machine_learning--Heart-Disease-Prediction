@@ -2,6 +2,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
+from xgboost import XGBClassifier
 import numpy as np
 from itertools import product
 import pandas as pd
@@ -13,8 +14,9 @@ from sklearn.impute import KNNImputer,SimpleImputer
 import json
 import shutil
 import os
+from sklearn.model_selection import train_test_split
 
-from sklearn.metrics  import cohen_kappa_score
+from sklearn.metrics  import cohen_kappa_score,recall_score,precision_score
 
 import sys
 
@@ -57,9 +59,9 @@ def get_params(algoritm=None):
             
             # logistic regression
             log_penalties = ['l1', 'l2', 'elasticnet', None]
-            log_Cs =  [0.01, 0.1, .3, .5, 1]
+            log_Cs =  [0.1, .3, .5, 1]
             log_solvers = ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
-            log_max_iters = [100,1000,10000]
+            log_max_iters = [100,1000,5000]
             log_l1_ratios = np.linspace(0.1,1,5,endpoint=True)
 
 
@@ -128,11 +130,72 @@ def get_params(algoritm=None):
 
             
             return knn_params_dict
+        
+        case "RandomForestClassifier":
+            
+            forest_n_estimators = [50,100,150]
+            forest_criterion = ['gini','entropy','log_loss']
+            forest_max_features = ['sqrt','log2',None]
+            
+            forest_params =list(product(forest_n_estimators,forest_criterion,forest_max_features))
+            forest_params_names = ['n_estimators','n_estimators','max_features']
+            
+            forest_params_dict = get_param_dict(forest_params_names,forest_params)
 
+
+            return forest_params_dict
+        
+        case "GradientBoostingClassifier":
+            
+            gradient_loss = ['log_loss','exponential']
+            gradient_learning_rate = [.05,.1,.15]
+            gradient_n_estimators = [50,100,150]
+            gradient_subsample = [.3,.5,1]
+            gradient_criterion = ['friedman_mse', 'squared_error']
+            gradient_max_features = ['sqrt', 'log2',None]
+
+
+            gradient_params =list(product(gradient_loss,gradient_learning_rate,gradient_n_estimators,gradient_subsample,gradient_criterion,gradient_max_features))
+            gradient_params_names = ['loss','learning_rate','n_estimators','subsample','criterion','max_features']
+            
+            gradient_params_dict = get_param_dict(gradient_params_names,gradient_params)
+
+
+            return gradient_params_dict
+        
+        case "BaggingClassifier":
+            
+            bagging_n_estimators = [5,10,15]
+            bagging_oob_score = [True,False]
+            bagging_bootstrap_features = [True,False]
+            
+            
+            bagging_params =list(product(bagging_n_estimators,bagging_oob_score,bagging_bootstrap_features))
+            bagging_params_names = ['n_estimators','oob_score','bootstrap_features']
+            
+            bagging_params_dict = get_param_dict(bagging_params_names,bagging_params)
+            
+            return bagging_params_dict
+
+        case "XGBClassifier":
+            
+            xg_n_estimators = [50,100,150] 
+            xg_learning_rate = [.1,.04]
+            xg_subsample = [.5,1]
+            
+            xg_params =list(product(xg_n_estimators,xg_learning_rate,xg_subsample))
+            xg_params_names = ['n_estimators','learning_rate','subsample']
+            
+            xg_params_dict= get_param_dict(xg_params_names,xg_params)
+            
+            return xg_params_dict
+            
 
         case _:
             
             raise ValueError("The algorithm name is not valid. \nPlease provide a valid algorithm name from the following list: \n\t['LogisticRegression', 'DecisionTreeClassifier', 'SVC', 'KNeighborsClassifier']")
+
+
 
 def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_file_name=None,param_file_name=None,imputer=None):
     
@@ -149,6 +212,16 @@ def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_
         
 
    
+    # if model traing ask
+    dest_folder = os.path.join("../results/",algorithm_name)
+    
+    if len(os.listdir(dest_folder)) > 0:
+        
+        ask = input(f"{algorithm_name} hyperparameter tuning was already done. Do you want to do it again? [y/[other key]]")
+        
+        if ask.lower() != 'y':
+            return None,None,None
+
     
     # get the data ready for modeling
     
@@ -166,6 +239,7 @@ def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_
     
     
     best_params = None
+    best_auc = 0
     best_kappa = 0
         
     for i,param in enumerate(parameters):
@@ -175,29 +249,38 @@ def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_
         model = algorithm().set_params(**param)
 
         
+        if i % 20 == 0:
+            
+            x_valid_train,x_valid_test,y_valid_train,y_valid_test = train_test_split(X_train,y_train,test_size=.2)
+
         
         try:
-            model = model.fit(X_train,y_train)
+            model = model.fit(x_valid_train,x_valid_test)
         except:
             continue
         
         
         
-        y_pred_test = model.predict(X_test)
-            
+        # test performance
+        y_pred_test = model.predict(x_valid_test)
+        kappa_test = cohen_kappa_score(y_valid_test,y_pred_test)
+
+        test_auc = precision_score(y_valid_test,y_pred_test) * recall_score(y_valid_test,y_pred_test)
         
-        y_pred_train = model.predict(X_train)
+        # train performance
+        y_pred_train = model.predict(x_valid_train)
+        kappa_train = cohen_kappa_score(y_valid_train,y_pred_train)
         
-        # scores
-        kappa_test = cohen_kappa_score(y_test,y_pred_test)
-        kappa_train = cohen_kappa_score(y_train,y_pred_train)
-        
-        if best_kappa < kappa_test:
+        train_auc = precision_score(y_valid_train,y_pred_train) * recall_score(y_valid_train,y_pred_train)
+
+        if best_kappa < kappa_test and best_auc < test_auc:
             
             best_kappa = kappa_test
+            best_auc = test_auc
             best_params = model.get_params()
         
-        print(f"{'-'*20} {i+1}/{n_params} {algorithm_name}:[Train Kappa: {kappa_train}, Test Kappa: {kappa_test}]{'-'*20}")
+        print(f"{i+1}/{n_params} {algorithm_name}:\n\t[Train Kappa: {kappa_train}, Test Kappa: {kappa_test}]\n\t\
+                                                      [Train AUC: {train_auc}, Test AUC: {test_auc}]")
         
     
     # best model
@@ -243,22 +326,21 @@ def find_best_model(algorithm,data_path,balancer,target='CVD',test_size=.2,perf_
 
     # perf_file_name = "log_regression_best_model_output.csv" if perf_file_name is None else perf_file_name
     # param_file_name = "log_regression_best_model_param.json" if param_file_name is None else param_file_name
-    perf_file_name = os.path.join("../results/",algorithm_name)
-    param_file_name = os.path.join("../results/",algorithm_name)
+    # param_file_name = os.path.join("../results/",algorithm_name)
     
-    if not os.path.exists(perf_file_name):
+    if not os.path.exists(dest_folder):
         
-        os.makedirs(perf_file_name)
-    if not os.path.exists(param_file_name):
+        os.makedirs(dest_folder)
+    # if not os.path.exists(param_file_name):
         
-        os.makedirs(param_file_name)
+    #     os.makedirs(param_file_name)
         
-    output.to_csv(os.path.join(perf_file_name,algorithm_name+"best_model_perfomance.csv"),index=False)
+    output.to_csv(os.path.join(dest_folder,algorithm_name+"best_model_perfomance.csv"),index=False)
 
     
-    output.to_csv(os.path.join(perf_file_name,algorithm_name+"best_model_perfomance.csv"),index=False)
+    output.to_csv(os.path.join(dest_folder,algorithm_name+"best_model_perfomance.csv"),index=False)
     
-    with open(os.path.join(param_file_name,algorithm_name+"best_model_params.json"), 'w') as file:
+    with open(os.path.join(dest_folder,algorithm_name+"best_model_params.json"), 'w') as file:
         
         json.dump(best_params,file)
         

@@ -11,6 +11,7 @@ import numpy as np
 import re
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from copy import deepcopy
 
 def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
     
@@ -42,7 +43,7 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
     
     
     # read the dataset
-    df = pd.read_csv(data_path)
+    df = deepcopy(pd.read_csv(data_path))
     
     # if there are time columns, death, and RANDID, remove them
     try:
