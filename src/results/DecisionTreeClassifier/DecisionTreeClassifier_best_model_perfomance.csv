@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,98.86
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,98.88
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,2253.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,46.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,7.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,2332.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,97.71
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,99.7
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,98.07
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.02
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,AUC,98.85
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.76
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.71
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,579.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,21.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,5.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,555.0
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,95.52
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,99.11
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,96.35
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.04
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.01
+DecisionTreeClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,AUC,97.8

@@ -3,7 +3,7 @@ This files contains the functions to calculate model evaluation metrics.
 """
 
 import numpy as np
-from sklearn.metrics import f1_score,precision_score,recall_score,confusion_matrix,accuracy_score,cohen_kappa_score
+from sklearn.metrics import f1_score,precision_score,recall_score,confusion_matrix,accuracy_score,cohen_kappa_score,roc_auc_score
 
 
 
@@ -30,6 +30,7 @@ def get_performances(y_true,y_pred,return_dict = False):
         - Precision
         - False Postive Rate
         - False Negative Rate
+        - AUC
         
         
     Parameters:
@@ -56,8 +57,8 @@ def get_performances(y_true,y_pred,return_dict = False):
     recall = recall_score(y_true,y_pred)
     precision = precision_score(y_true,y_pred)
     fpr = false_positive_rate(fp,tn)
-    fnr = false_negative_rate(fn,tp)    
-    auc = recall*precision
+    fnr = false_negative_rate(fn,tp)  
+    auc = roc_auc_score(y_true,y_pred)  
 
 
     output = list(map(lambda x: round(x*100,2),[acc,f1,tn/100,fp/100,fn/100,tp/100,kappa_score,recall,precision,fpr/100,fnr/100,auc]))

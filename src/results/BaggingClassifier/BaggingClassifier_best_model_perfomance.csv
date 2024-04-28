@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,100.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,100.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,2299.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,0.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,0.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,2339.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,100.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,100.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,100.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,AUC,100.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.93
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.89
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,579.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,21.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,3.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,557.0
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,95.86
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,99.46
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,96.37
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.04
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.01
+BaggingClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,AUC,97.98

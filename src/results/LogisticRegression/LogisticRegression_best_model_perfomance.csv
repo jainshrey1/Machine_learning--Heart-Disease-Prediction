@@ -1,0 +1,23 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,98.4
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,98.43
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,2245.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,54.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,20.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,2319.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,96.81
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,99.14
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,97.72
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.02
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.01
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.93
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.87
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,585.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,15.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,9.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,551.0
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,95.86
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,98.39
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,97.35
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.03
+LogisticRegression,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.02

@@ -1,0 +1,23 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,98.81
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,98.84
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,2248.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,51.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,4.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,2335.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,97.63
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,99.83
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,97.86
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.02
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,98.53
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,98.5
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,585.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,15.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,2.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,558.0
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,97.07
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,99.64
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,97.38
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.03
+SVC,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.0

@@ -1,0 +1,1 @@
+{"ccp_alpha": 0.0, "class_weight": null, "criterion": "log_loss", "max_depth": 8, "max_features": 15, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_samples_leaf": 3, "min_samples_split": 11, "min_weight_fraction_leaf": 0.0, "monotonic_cst": null, "random_state": 123, "splitter": "best"}

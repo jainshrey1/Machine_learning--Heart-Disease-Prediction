@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from copy import deepcopy
 
-def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
+def balance_impute_data(balancer,imputer,data_path=None,df=None,test_size=.2,target='CVD'):
     
     
     """
@@ -43,7 +43,8 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
     
     
     # read the dataset
-    df = deepcopy(pd.read_csv(data_path))
+    if df is  None:
+        df = deepcopy(pd.read_csv(data_path))
     
     # if there are time columns, death, and RANDID, remove them
     try:
@@ -53,6 +54,9 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
     
     # get the features
     features = list(df.columns)
+    
+    # print(features)
+    # quit()
     features.remove(target)
     
     # get counts of each feature unique value, if the unique values are less than 5, they are considered as categorical (this works only for this dataset, it is not a general rule)
@@ -87,9 +91,12 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
         
     # balance
     
-    balancer_name = balancer.__name__
-    balancer = balancer()
-    X,y = balancer.fit_resample(X,y)
+    try:
+        balancer_name = balancer.__name__
+        balancer = balancer()
+        X,y = balancer.fit_resample(X,y)
+    except:
+        balancer_name = 'OriginalData'
     
     
     # split
@@ -108,3 +115,7 @@ def balance_impute_data(data_path,balancer,imputer,test_size=.2,target='CVD'):
     #     try:
     
     return X_train,X_test,y_train,y_test,cat_imputer_name,num_imputer_name,balancer_name
+
+
+    
+    
