@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,100.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,100.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,2299.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,0.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,0.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,2339.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,100.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,100.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,100.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,AUC,100.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.07
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.02
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,572.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,28.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,6.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,554.0
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,94.14
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,98.93
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,95.19
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.05
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.01
+KNeighborsClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,AUC,97.13
