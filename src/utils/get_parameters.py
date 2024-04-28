@@ -8,15 +8,14 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
-from imblearn.over_sampling import SMOTE
-from imblearn.under_sampling import ClusterCentroids,AllKNN
+from imblearn.over_sampling import SMOTE,ADASYN
 from smote_variants import MWMOTE
 
 from sklearn.naive_bayes import GaussianNB 
 from xgboost import XGBClassifier
 from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier,BaggingClassifier
 
-from imblearn.under_sampling import ClusterCentroids
+from imblearn.under_sampling import ClusterCentroids,AllKNN
 from sklearn.impute import SimpleImputer, KNNImputer
 
 
@@ -135,10 +134,11 @@ def get_params(algoritm=None):
             forest_n_estimators = [50,100,150]
             forest_criterion = ['gini','entropy','log_loss']
             forest_max_features = ['sqrt','log2',None]
+            forest_min_samples_split = [2,4,6]
+            forest_min_samples_leaf = [1,2,3]
             
-            
-            forest_params =list(product(forest_n_estimators,forest_criterion,forest_max_features))
-            forest_params_names = ['n_estimators','criterion','max_features']
+            forest_params =list(product(forest_n_estimators,forest_criterion,forest_max_features,forest_min_samples_split,forest_min_samples_leaf))
+            forest_params_names = ['n_estimators','criterion','max_features','min_samples_split','min_samples_leaf']
             
             forest_params_dict = get_param_dict(forest_params_names,forest_params)
 
@@ -153,10 +153,12 @@ def get_params(algoritm=None):
             gradient_subsample = [.3,.5,1]
             gradient_criterion = ['friedman_mse', 'squared_error']
             gradient_max_features = ['sqrt', 'log2',None]
-
-
-            gradient_params =list(product(gradient_loss,gradient_learning_rate,gradient_n_estimators,gradient_subsample,gradient_criterion,gradient_max_features))
-            gradient_params_names = ['loss','learning_rate','n_estimators','subsample','criterion','max_features']
+            gradient_min_samples_split = [2,4,6]
+            gradient_min_samples_leaf = [1,2,3]
+            
+            gradient_params =list(product(gradient_loss,gradient_learning_rate,gradient_n_estimators,\
+                                    gradient_subsample,gradient_criterion,gradient_max_features,gradient_min_samples_split,gradient_min_samples_leaf))
+            gradient_params_names = ['loss','learning_rate','n_estimators','subsample','criterion','max_features','min_samples_split','min_samples_leaf']
             
             gradient_params_dict = get_param_dict(gradient_params_names,gradient_params)
 
@@ -182,9 +184,11 @@ def get_params(algoritm=None):
             xg_n_estimators = [50,100,150,200] 
             xg_learning_rate = [.1,.04,0.2]
             xg_subsample = [.5,1,.3]
+            xg_max_depth = [3,5,7,10]
+            xg_max_leaves = [3,5,7,0]
             
-            xg_params =list(product(xg_n_estimators,xg_learning_rate,xg_subsample))
-            xg_params_names = ['n_estimators','learning_rate','subsample']
+            xg_params =list(product(xg_n_estimators,xg_learning_rate,xg_subsample,xg_max_depth,xg_max_leaves))
+            xg_params_names = ['n_estimators','learning_rate','subsample','max_depth','max_leaves']
             
             xg_params_dict= get_param_dict(xg_params_names,xg_params)
             
@@ -208,7 +212,7 @@ def max_score_for_each(df,by=['Algorithm','Metric'],set_='Test'):
 
 
 def get_combinations(performance_path = './results/general/full_data_performances_9_models_5_balancers.csv',df=None,
-                    by_features=['Algorithm','Metric'],by_metric='Kappa',by_set='Test'):
+                    by_features=['Algorithm','Metric'],by_metric='AUC',by_set='Test'):
     
     
     imputer_map = {
@@ -235,6 +239,7 @@ def get_combinations(performance_path = './results/general/full_data_performance
         "OriginalData":None,
         "ClusterCentroids":ClusterCentroids,
         "AllKNN":AllKNN,
+        "ADASYN":ADASYN
     }
     
     if df is None:

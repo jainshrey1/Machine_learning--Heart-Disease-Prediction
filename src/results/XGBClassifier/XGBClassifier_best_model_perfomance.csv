@@ -1,23 +1,25 @@
 Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Accuracy,99.18
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,F-1,99.19
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Negative,2263.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Positive,36.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative,2.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,True Positive,2337.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Kappa,98.36
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Recall,99.91
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,Precision,98.48
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Postive Rate,0.02
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Train,False Negative Rate,0.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Accuracy,97.5
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,F-1,97.45
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Negative,577.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Positive,23.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative,6.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,True Positive,554.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Kappa,95.0
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Recall,98.93
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,Precision,96.01
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Postive Rate,0.04
-XGBClassifier,ClusterCentroids,SimpleImputer_mode,SimpleImputer_mean,Test,False Negative Rate,0.01
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Accuracy,99.21
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,F-1,99.2
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Negative,6933.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Positive,54.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative,57.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Positive,6920.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Kappa,98.41
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Recall,99.18
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Precision,99.23
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Postive Rate,0.01
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative Rate,0.01
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,AUC,99.21
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Accuracy,98.05
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,F-1,98.06
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Negative,1702.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Positive,39.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative,29.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Positive,1722.0
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Kappa,96.11
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Recall,98.34
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Precision,97.79
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Postive Rate,0.02
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative Rate,0.02
+XGBClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,AUC,98.05

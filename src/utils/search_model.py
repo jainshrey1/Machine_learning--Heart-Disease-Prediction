@@ -47,7 +47,7 @@ imputers = [
 
 
 
-balancers = [SMOTE,MWMOTE,None,ClusterCentroids,AllKNN]
+balancers = [SMOTE,MWMOTE,ADASYN,None,AllKNN]
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
