@@ -1,4 +1,4 @@
-"""
+""":
 To make visualization process easier and simple, we have coded functions for each type of visualization.
 Here plotnine package is used to create the plots. plotnine is a Python package allowing to create 'ggplot2' like plots.
 
@@ -38,6 +38,8 @@ def plot_for_each_algorithm(df):
     
         alg_df = df[df['Algorithm'] == alg]
         
+        title = f"Performance of {alg} for each impution and data balancing approach" 
+        
         bar = ggplot(alg_df, aes(x='Metric', y='Score', fill='Metric',label='Score')) + \
                facet_grid(rows='Imbalance',cols='Imputer') + \
                geom_col(position='dodge') + \
@@ -45,7 +47,7 @@ def plot_for_each_algorithm(df):
                theme(figure_size=(15,15),axis_text_x=element_text(angle=45, hjust=1))  + \
                geom_text(position=position_dodge(width=.3),va='bottom') +\
                ylim(0,110) + \
-               labs(title=algoritms_title[alg])
+               labs(title=title)
     
     
         bar.show()
@@ -112,6 +114,8 @@ def plot_for_each_performance_metric(df):
     --------
     None
     """
+    
+    df['Score'] = round(df['Score'],1)
     metrics = df.MainMetric.unique()
     
     for met in metrics:

@@ -57,13 +57,14 @@ def get_performances(y_true,y_pred,return_dict = False):
     precision = precision_score(y_true,y_pred)
     fpr = false_positive_rate(fp,tn)
     fnr = false_negative_rate(fn,tp)    
+    auc = recall*precision
 
 
-    output = list(map(lambda x: round(x*100,2),[acc,f1,tn/100,fp/100,fn/100,tp/100,kappa_score,recall,precision,fpr/100,fnr/100]))
+    output = list(map(lambda x: round(x*100,2),[acc,f1,tn/100,fp/100,fn/100,tp/100,kappa_score,recall,precision,fpr/100,fnr/100,auc]))
     
     if return_dict:
         
-        metrics = ['Accuracy','F-1','True Negative','False Positive','False Negative','True Positive','Kappa','Recall','Precision','False Postive Rate','False Negative Rate']
+        metrics = ['Accuracy','F-1','True Negative','False Positive','False Negative','True Positive','Kappa','Recall','Precision','False Postive Rate','False Negative Rate','AUC']
         
         output = {metrics[i]:[output[i]] for i in range(len(output))}
         

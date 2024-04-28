@@ -8,16 +8,19 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from xgboost import XGBClassifier
 
 from sklearn.impute import SimpleImputer,KNNImputer
 
 
 from imblearn.over_sampling import SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,RandomOverSampler,SVMSMOTE
 from imblearn.under_sampling import ClusterCentroids,AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,InstanceHardnessThreshold,RandomUnderSampler
+from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier,BaggingClassifier
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
+from smote_variants import MWMOTE
 import re
 
 
@@ -47,34 +50,34 @@ imputers = [
 #              "ADASYN":ADASYN,
 #              ""}
 
-balancers = [SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
-             RandomOverSampler,SVMSMOTE,ClusterCentroids,None, #,\
-             AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
-             InstanceHardnessThreshold,RandomUnderSampler]
+# balancers = [MWMOTE,SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,\
+#              RandomOverSampler,SVMSMOTE,ClusterCentroids,None, #,\
+#              AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,\
+#              InstanceHardnessThreshold,RandomUnderSampler]
 
 
-balancers = [SMOTE,ADASYN,None,ClusterCentroids]
+balancers = [SMOTE,ADASYN,None,ClusterCentroids,MWMOTE]
 
 algorithms = {"LogisticRegression":LogisticRegression(),
           "DecisionTree":DecisionTreeClassifier(),
           "NaiveBayes":GaussianNB(),
           "KNN":KNeighborsClassifier(),
-          "SVM":SVC()}
+          "SVM":SVC(),
+          "RandomForest":RandomForestClassifier(),
+          "GradientBoosting":GradientBoostingClassifier(),
+          "Bagging":BaggingClassifier(),
+          "XGBoost":XGBClassifier()}
 
 
-# metrics = {"accuracy":accuracy_score,
-#            "f1score":f1_score,
-#            "precision_score":precision_score,
-#            "recall_score":recall_score,
-#            "confusion_matrix":confusion_matrix
-#            }
+
+
 
 from copy import deepcopy
 
 import pandas as pd
 
 
-def train_model(path,target_var,path_to_save):
+def train_models(path,target_var,path_to_save):
     
     
     """
@@ -112,6 +115,7 @@ def train_model(path,target_var,path_to_save):
                       "Train-FN":[],
                       "Train-Recall":[],
                       "Train-Precision":[],
+                      "Train-AUC":[],
                       "Train-FalseNegativeRate":[],
                       "Train-FalsePositiveRate":[],
                       "Test-F-1":[],
@@ -123,11 +127,12 @@ def train_model(path,target_var,path_to_save):
                       "Test-FN":[],
                       "Test-Recall":[],
                       "Test-Precision":[],
+                      "Test-AUC":[],
                       "Test-FalseNegativeRate":[],
                       "Test-FalsePositiveRate":[],}
     
     
-    df = pd.read_csv(path)
+    df = deepcopy(pd.read_csv(path))
     
     
     try:
@@ -174,7 +179,7 @@ def train_model(path,target_var,path_to_save):
         ddf[cat_varaibles] = x_cat
         ddf[num_varaiables] = x_num
         
-        X,y = ddf.iloc[:,:-1].values,ddf.iloc[:,-1].values
+        X_full,y_full = ddf.iloc[:,:-1].values,ddf.iloc[:,-1].values
         
         # balance
         for balancer in balancers:
@@ -186,13 +191,17 @@ def train_model(path,target_var,path_to_save):
                 b_name = 'OriginalData'
             
             if b_name != 'OriginalData':
+                
                 balancer = balancer()
                 
-                X,y = balancer.fit_resample(X,y)
+                X_balanced,y_balaanced = balancer.fit_resample(X_full,y_full)
+                
+            else:
+                X_balanced,y_balaanced = deepcopy(X_full),deepcopy(y_full)
             
             # train test and scale
             
-            X_train,X_test,y_train,y_test = train_test_split(X,y,random_state=123,test_size=.2)
+            X_train,X_test,y_train,y_test = train_test_split(X_balanced,y_balaanced,random_state=123,test_size=.2)
             
             scaler = StandardScaler()
             
@@ -219,7 +228,7 @@ def train_model(path,target_var,path_to_save):
                 
                 y_pred = model.predict(X_train)
                 
-                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performances(y_true=y_train,
+                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr,auc = get_performances(y_true=y_train,
                                                                                           y_pred=y_pred)
                 
                 
@@ -228,6 +237,7 @@ def train_model(path,target_var,path_to_save):
                 performance_df['Train-Kappa'].append(kappa_score)
                 performance_df['Train-Precision'].append(precision)
                 performance_df['Train-Recall'].append(recall)
+                performance_df['Train-AUC'].append(auc)
                 performance_df['Train-TP'].append(tp) 
                 performance_df['Train-TN'].append(tn)               
                 performance_df['Train-FP'].append(fp)               
@@ -240,7 +250,7 @@ def train_model(path,target_var,path_to_save):
                 y_pred = model.predict(X_test)
 
 
-                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr = get_performances(y_true=y_test,
+                acc,f1,tn,fp,fn,tp,kappa_score,recall,precision,fpr,fnr,auc = get_performances(y_true=y_test,
                                                                                           y_pred=y_pred)
                 
                 performance_df['Test-Accuracy'].append(acc)
@@ -248,6 +258,7 @@ def train_model(path,target_var,path_to_save):
                 performance_df['Test-Kappa'].append(kappa_score)
                 performance_df['Test-Precision'].append(precision)
                 performance_df['Test-Recall'].append(recall)
+                performance_df['Test-AUC'].append(auc)
                 performance_df['Test-TP'].append(tp) 
                 performance_df['Test-TN'].append(tn)               
                 performance_df['Test-FP'].append(fp)               

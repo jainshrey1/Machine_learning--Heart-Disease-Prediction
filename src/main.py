@@ -1,4 +1,4 @@
-from utils.search_model import train_model
+from utils.search_model import train_models
 import pandas as pd
 from utils.models import find_best_model
 from imblearn.over_sampling import SMOTE
@@ -16,8 +16,9 @@ if __name__ == "__main__":
     
     # X,y = 
     
-    # train_model("../data/initial_data/frmgham2_project_data.csv",'CVD','../src/results/general/first_attempt_result_4_balancers.csv')
+    train_models("../data/initial_data/frmgham2_project_data_full.csv",'CVD','../src/results/general/full_data_performances_9_models_5_balancers.csv')
     
+    quit()
     
     # make_plots("../src/results/first_attempt_result.csv")
     
