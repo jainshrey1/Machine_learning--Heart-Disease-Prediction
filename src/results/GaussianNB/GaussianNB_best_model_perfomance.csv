@@ -1,0 +1,25 @@
+Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,Accuracy,93.5
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,F-1,93.31
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,True Negative,6704.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,False Positive,238.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,False Negative,666.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,True Positive,6306.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,Kappa,87.01
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,Recall,90.45
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,Precision,96.36
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,False Postive Rate,0.03
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,False Negative Rate,0.1
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Train,AUC,93.51
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,Accuracy,94.45
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,F-1,94.15
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,True Negative,1732.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,False Positive,54.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,False Negative,139.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,True Positive,1554.0
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,Kappa,88.88
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,Recall,91.79
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,Precision,96.64
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,False Postive Rate,0.03
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,False Negative Rate,0.08
+GaussianNB,ADASYN,SimpleImputer_mode,KNNImptuer,Test,AUC,94.38

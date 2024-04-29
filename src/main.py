@@ -20,10 +20,10 @@ if __name__ == "__main__":
     # train defualt models
     # performarmace_df = train_models("../data/initial_data/frmgham2_project_data_full.csv",'CVD','../src/results/general/full_data_performances_9_models_5_balancers.csv')
     
-    # data_path ='../data/initial_data/frmgham2_project_data_full.csv'
-    # df = pd.read_csv(data_path)
+    data_path ='../data/initial_data/frmgham2_project_data_full.csv'
+    df = pd.read_csv(data_path)
 
-    train_best_models()
+    train_best_models(df=df)
 
     # get combinations of model,balance,imputer
     # combinations = get_combinations()
