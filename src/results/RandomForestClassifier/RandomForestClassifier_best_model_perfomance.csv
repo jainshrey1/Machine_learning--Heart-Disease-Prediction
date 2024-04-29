@@ -1,25 +1,25 @@
 Algorithm,Imbalance,ImputerCat,ImputerNum,Set,Metric,Score
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Accuracy,100.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,F-1,100.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Negative,6987.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Positive,0.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative,0.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Positive,6977.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Kappa,100.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Recall,100.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Precision,100.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Accuracy,99.95
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,F-1,99.95
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Negative,6982.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Positive,5.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative,2.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,True Positive,6975.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Kappa,99.9
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Recall,99.97
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,Precision,99.93
 RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Postive Rate,0.0
 RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,False Negative Rate,0.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,AUC,100.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Accuracy,98.11
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,F-1,98.12
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Negative,1706.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Positive,35.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative,31.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Positive,1720.0
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Kappa,96.22
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Recall,98.23
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Precision,98.01
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Train,AUC,99.95
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Accuracy,98.08
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,F-1,98.09
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Negative,1703.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Positive,38.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative,29.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,True Positive,1722.0
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Kappa,96.16
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Recall,98.34
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,Precision,97.84
 RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Postive Rate,0.02
 RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,False Negative Rate,0.02
-RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,AUC,98.11
+RandomForestClassifier,SMOTE,SimpleImputer_mode,KNNImptuer,Test,AUC,98.08
