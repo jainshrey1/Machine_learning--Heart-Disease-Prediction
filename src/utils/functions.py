@@ -1,3 +1,7 @@
+"""
+This is a file for any addtional functions that are not part of the main pipeline.
+"""
+
 from fnmatch import fnmatch
 import os
 import pandas as pd
@@ -6,6 +10,26 @@ import pandas as pd
 
 def concat_results(root='../results/',dest_path='../results/general/best_results_all_models.csv'):
     
+    
+    """
+    Takes the root where the results are stored and concatentas all the results into one file.
+    Since the results are stored in different folders, this function goes through all the folders and reads the csv files using fnmatch.
+    
+    
+    Parameters:
+    -----------
+    root: str
+        The root where the results are stored. The default value is '../results/'
+        
+    dest_path: str
+        The path where the concatenated results will be saved. The default value is '../results/general/best_results_all_models.csv'
+        
+    Returns:
+    --------
+    pd.DataFrame
+        The concatenated results.
+    
+    """
     
     full_df = None
     # root = "./results/"

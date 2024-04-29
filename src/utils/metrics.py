@@ -1,5 +1,8 @@
 """
-This files contains the functions to calculate model evaluation metrics.
+This file is for the model evaluation metrics. 
+
+The first function are lambda functions to use inside the get_performances function.
+The main function is get_performances which calculates the model evaluation metrics.
 """
 
 import numpy as np
@@ -30,15 +33,17 @@ def get_performances(y_true,y_pred,return_dict = False):
         - Precision
         - False Postive Rate
         - False Negative Rate
-        - AUC
+        - AUC - Area Under the Curve in ROC curve.
         
         
     Parameters:
     -----------
     y_true: np.array
         The true labels.
+        
     y_pred: np.array
-        The predicted labels.    
+        The predicted labels.  
+          
     return_dict: bool
         If True, the function returns a dictionary with the metrics as keys. The default value is False.
         
@@ -49,22 +54,34 @@ def get_performances(y_true,y_pred,return_dict = False):
     
     
     """
+    
     acc = accuracy_score(y_true,y_pred)
+    
     f1 = f1_score(y_true,y_pred)
+    
     conf_matrix = confusion_matrix(y_true,y_pred)
+    
     tn, fp, fn, tp = [int(c) for c in conf_matrix.ravel()]
+    
     kappa_score = cohen_kappa_score(y_true,y_pred)
+    
     recall = recall_score(y_true,y_pred)
+    
     precision = precision_score(y_true,y_pred)
+    
     fpr = false_positive_rate(fp,tn)
-    fnr = false_negative_rate(fn,tp)  
+    
+    fnr = false_negative_rate(fn,tp) 
+     
     auc = roc_auc_score(y_true,y_pred)  
 
 
+    # output in a list format
     output = list(map(lambda x: round(x*100,2),[acc,f1,tn/100,fp/100,fn/100,tp/100,kappa_score,recall,precision,fpr/100,fnr/100,auc]))
     
     if return_dict:
         
+        # if return_dict is True, create a dictionary with the metrics as keys
         metrics = ['Accuracy','F-1','True Negative','False Positive','False Negative','True Positive','Kappa','Recall','Precision','False Postive Rate','False Negative Rate','AUC']
         
         output = {metrics[i]:[output[i]] for i in range(len(output))}

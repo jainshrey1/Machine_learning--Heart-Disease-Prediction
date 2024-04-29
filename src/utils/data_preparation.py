@@ -1,13 +1,19 @@
 
 
 """
-This file contains functions to prepare data for modeling.
+The file contains the functions to prepare the data fod modeling. 
 
+Since data processing consists of 
+    - imputing missing valuesq
+    - balancing the data
+    - splitting the data into train and test sets
+    - scaling the data
+    
+for each algorithm, this function is created to automate the process and make code reusable.
 """
 
 
 import pandas as pd
-import numpy as np
 import re
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -25,13 +31,17 @@ def balance_impute_data(balancer,imputer,data_path=None,df=None,test_size=.2,tar
     -----------
     data_path: str
         The path to the data.  
+        
     balancer: class
         The balancing technique. This should be a class from imblearn.over_sampling or imblearn.under_sampling.
+        
     imputer: dict
         The imputation techniques. This should be a dictionary with two keys: one for numerical imputation and one for categorical imputation.
         The imputer value should be a class from sklearn.impute and already instantiated.
+        
     test_size: float
         The size of the test set. The default value is .2
+        
     target: str
         The target variable. The default value is 'CVD'
         
@@ -39,6 +49,7 @@ def balance_impute_data(balancer,imputer,data_path=None,df=None,test_size=.2,tar
     --------
     tuple
         A tuple with the train and test sets and the names of the imputers and balancer.  
+        (X_train,X_test,y_train,y_test,cat_imputer_name,num_imputer_name,balancer_name)
     """
     
     

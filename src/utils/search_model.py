@@ -8,20 +8,17 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from xgboost import XGBClassifier
-
-from sklearn.impute import SimpleImputer,KNNImputer
-from IPython.display import display 
-
-
-from imblearn.over_sampling import SMOTE,ADASYN,BorderlineSMOTE,KMeansSMOTE,RandomOverSampler,SVMSMOTE
-from imblearn.under_sampling import ClusterCentroids,AllKNN,CondensedNearestNeighbour,EditedNearestNeighbours,InstanceHardnessThreshold,RandomUnderSampler
 from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier,BaggingClassifier
-
+from xgboost import XGBClassifier
+from sklearn.impute import SimpleImputer,KNNImputer
+from smote_variants import MWMOTE
+from imblearn.over_sampling import SMOTE,ADASYN
+from imblearn.under_sampling import AllKNN
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
-from smote_variants import MWMOTE
+from copy import deepcopy
+import pandas as pd
 import re
 
 
@@ -31,8 +28,6 @@ sys.path.append("../")
 from utils.metrics import get_performances
 
 
-# imputers_num = {"SimpleImputer_mean":SimpleImputer()}
-# imputers_cat = {"SimpleImputer_mean":SimpleImputer(strategy='most_frequent')}
 
 imputers = [
     [
@@ -63,12 +58,7 @@ algorithms = {"LogisticRegression":LogisticRegression(),
 
 
 
-from copy import deepcopy
-
-import pandas as pd
-
-
-def train_models(path,target_var,path_to_save):
+def train_models(path_to_save,path=None,df=None,target_var="CVD"):
     
     
     """
@@ -80,12 +70,20 @@ def train_models(path,target_var,path_to_save):
     
     Parameters:
     -----------
-    path: str
-        The path to the data.
-    target_var: str
-        The target variable.
     path_to_save: str
         The path to save the results.
+        
+    path: str
+        The path to the data.
+        
+    df: pd.DataFrame
+        The dataframe with the data.
+        If both path and df are None, the function will raise an error.
+        
+    target_var: str
+        The target variable.
+        
+
         
         
     Returns:
@@ -123,7 +121,8 @@ def train_models(path,target_var,path_to_save):
                       "Test-FalsePositiveRate":[],}
     
     
-    df = deepcopy(pd.read_csv(path))
+    if df is None:
+        df = deepcopy(pd.read_csv(path))
     
     
     try:

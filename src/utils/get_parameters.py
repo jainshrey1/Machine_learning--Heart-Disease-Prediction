@@ -1,3 +1,15 @@
+"""
+This file contains three functions:
+    
+        - get_params: to get hyperparameters combinations for the algorithms
+        - max_score_for_each: to get the best score for each algorithm for each metric
+        - get_combinations: to get the combinations of imputers, balancers, and algorithms that worked best for a given metric
+        
+The functions in this file are used to entire algorithm optimization process more efficient and automated.
+
+"""
+
+
 from itertools import product
 import numpy as np
 import pandas as pd
@@ -24,17 +36,25 @@ def get_params(algoritm=None):
     
     """
     This functions is a container for all hyperparameters combinations for the algorithms.
-    The only parameter is the algorithm name. 
+    The only parameter is the algorithm name.
+    
+    The steps are (for each algorithm):
+        - define the hyperparameters and their values in lists
+        - create a list of lists where each list is a combination of hyperparameters (using itertools.product)
+        - create a list of dictionaries where each dictionary is a hyperparameters combination (lambda function get_param_dict)
+        - return the list of dictionaries
+    
     
     Parameters:
     -----------
     algorithm: str
-        The name of the algorithm. The default value is None. The name should be the same as the algorithm name in sklearn.
+        The name of the algorithm. The default value is None. The name should be the same as the algorithm name in sklearn/xgboost.
         The opitions are:
             - LogisticRegression
             - DecisionTreeClassifier
             - SVC
             - KNeighborsClassifier
+            - GaussianNB
             - RandomForestClassifier
             - GradientBoostingClassifier
             - BaggingClassifier
@@ -43,6 +63,7 @@ def get_params(algoritm=None):
     --------
     list of dicts
         A list of dictionaries with hyperparameters combinates for the algorithm (list of dicts). 
+        If the algorithm name is not valide (from the list above), a ValueError is raised.
     """
     
     
@@ -55,7 +76,6 @@ def get_params(algoritm=None):
     match algoritm:
         case "LogisticRegression":
             
-            # logistic regression
             log_penalties = ['l1', 'l2', 'elasticnet', None]
             log_Cs =  [0.1, .3, .5, 1]
             log_solvers = ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
@@ -73,7 +93,6 @@ def get_params(algoritm=None):
         
         case "DecisionTreeClassifier":
             
-            # decision tree
             tree_criterion = ["gini", "entropy", "log_loss"]
             tree_splitter = ["best", "random"]
             tree_max_depth = [2,4,6,8]
@@ -96,7 +115,6 @@ def get_params(algoritm=None):
         case "SVC":
             
     
-            # svm
             svm_C = [.3,.5,1.,2.]
             svm_kernel = ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']
             svm_degree = [2,3,4]
@@ -114,7 +132,6 @@ def get_params(algoritm=None):
         
         case "KNeighborsClassifier":
             
-            # knn
             
             knn_n_neighbors = [5,7,10]
             knn_weights = ['uniform', 'distance']
@@ -204,11 +221,36 @@ def get_params(algoritm=None):
 
         case _:
             
-            raise ValueError("The algorithm name is not valid. \nPlease provide a valid algorithm name from the following list: \n\t['LogisticRegression', 'DecisionTreeClassifier', 'SVC', 'KNeighborsClassifier']")
+            raise ValueError("The algorithm name is not valid. \nPlease provide a valid algorithm name from the following list:\
+                \n\t['LogisticRegression', 'DecisionTreeClassifier', 'SVC', 'KNeighborsClassifier',\
+                'GaussianNB','RandomForestClassifier','GradientBoostingClassifier','BaggingClassifier','XGBClassifier']")
+
+
+
 
 
 def max_score_for_each(df,by=['Algorithm','Metric'],set_='Test'):
 
+
+    """
+    This function returns the best score for each algorithm for each metric.
+    The function groups the data by the 'by' parameter(s) and then gets the maximum score for each group.
+    
+    Parameters:
+    -----------
+    df: pd.DataFrame
+        The dataframe with the results.
+    by: list
+        The columns to group by. The default value is ['Algorithm','Metric'].
+    set_: str
+        The set to get the best score. The default value is 'Test'.
+        
+    Returns:
+    --------
+    pd.DataFrame
+        A dataframe with the best score for each algorithm for each metric.    
+    
+    """
 
     get_max_score = lambda group: group.loc[group['Score'].idxmax()]
 
@@ -218,9 +260,48 @@ def max_score_for_each(df,by=['Algorithm','Metric'],set_='Test'):
     return max_scores
 
 
+
+
 def get_combinations(performance_path = './results/general/full_data_performances_9_models_5_balancers.csv',df=None,
                     by_features=['Algorithm','Metric'],by_metric='AUC',by_set='Test'):
     
+    
+    """
+    This function returns the combinations of algorithm, imputers, and balancers that worked best for a given metric.
+    
+    The steps are:
+        - read the performance data (in cartesian product format, which means that each algorithm has all the combinations of imputers and balancers)
+        - get the best score for each algorithm for each metric (using max_score_for_each function from this file)
+        - filter the data by the given metric: this is the metric that we consider the primary metric to get the best combinations
+        - use predefiend dictionaries to map the algorithm, imputer, and balancer names to the classes: this is 
+            necessary to convert strings to classes, so enable the use of the classes in the pipeline
+        - crete a list of lists: the length of the list is equal to the numbder of algorithms, 
+            and each lists consists of [algorithm, [num_imputer_name,num_imputer,cat_imputer_name,cat_imputer],balancer]]
+            the algorithm and balancer are classes, but the imputers are tuples with the name and the instantiated class
+        - return the list of lists
+        
+        
+    Parameters:
+    -----------
+    performance_path: str
+        The path to the performance data. The default value is './results/general/full_data_performances_9_models_5_balancers.csv'.
+    df: pd.DataFrame
+        The dataframe with the performance data. The default value is None.
+        
+        if both performance_path and df are None, the error is raised.
+        
+    by_features: list
+        The columns to group by. The default value is ['Algorithm','Metric'].
+    by_metric: str
+        The metric to consider while choosing the best performed combinations. The default value is 'AUC'.
+    by_set: str
+        The set to get the best score. The default value is 'Test'.
+        
+    Returns:
+    --------
+    list of lists
+        A list of lists with the best combinations of algorithm, imputer, and balancer for a given metric.
+    """
     
     imputer_map = {
         'KNNImptuer':KNNImputer(),
