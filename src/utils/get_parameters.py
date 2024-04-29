@@ -193,6 +193,13 @@ def get_params(algoritm=None):
             xg_params_dict= get_param_dict(xg_params_names,xg_params)
             
             return xg_params_dict
+        
+        case "GaussianNB":
+            
+            naive_priors = None
+            naive_var_smoothing  = 1e-9
+            
+            return [{'priors':naive_priors,'var_smoothing':naive_var_smoothing}]
             
 
         case _:
