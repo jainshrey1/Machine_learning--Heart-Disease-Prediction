@@ -3,3 +3,5 @@
 .idea
 ./src/models/
 ./src/results/
+./src/old_drafts/
+**/.idea/
