@@ -13,9 +13,6 @@ import pandas as pd
 from utils.models import train_best_models
 
 
-from utils.get_parameters import get_combinations
-
-
 
 if __name__ == "__main__":
     
