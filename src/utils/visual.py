@@ -382,15 +382,23 @@ def plot_results(performances_df,algorithm,df,set_='Test'):
     model
     
     """
+    
+    # load the model
     model = joblib.load(f"../models/{algorithm+'_best_model'}.pkl")
 
 
+    # prepare the data
     X_train,X_test,y_train,y_test,_,_,_ = prepare_for_algorithm(algorithm,df,performances_df)
     
+    
+    # make prediction
     prediction = model.predict(X_test) if set == 'Test' else model.predict(X_train)
+
+
 
     true = y_test if set == 'Test' else y_train
     
+    # evaluate the model
     performance = get_performances(true,prediction,return_dict=True,return_df=True)
     conf_mat = confusion_matrix(prediction,true)
 
@@ -402,9 +410,7 @@ def plot_results(performances_df,algorithm,df,set_='Test'):
     
     plt.show()
 
-    # performance metrics
-    # fig, ax = plt.subplots(1,1)
-    
+    # performance metrics    
     plt.figure()
     plt.bar(performance['Metric'],performance['Score'],color='orange')
     
@@ -418,6 +424,8 @@ def plot_results(performances_df,algorithm,df,set_='Test'):
     plt.title(f"Performance of {algorithm}\n {set_} set")
     plt.show()
     
+    
+    # if the model is tree based, plot the feature importance
     try:
         
         plt.figure()
