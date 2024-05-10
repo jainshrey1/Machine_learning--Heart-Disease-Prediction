@@ -263,7 +263,7 @@ def max_score_for_each(df,by=['Algorithm','Metric'],set_='Test'):
 
 
 def get_combinations(performance_path = './results/general/full_data_performances_9_models_5_balancers.csv',df=None,
-                    by_features=['Algorithm','Metric'],by_metric='AUC',by_set='Test'):
+                    by_features=['Algorithm','Metric'],by_metric='AUC',by_set='Test',return_dict=False):
     
     
     """
@@ -296,6 +296,8 @@ def get_combinations(performance_path = './results/general/full_data_performance
         The metric to consider while choosing the best performed combinations. The default value is 'AUC'.
     by_set: str
         The set to get the best score. The default value is 'Test'.
+    return_dict: bool
+        If True, the function returns a dictionary with the algorithms as keys. The default value is False.
         
     Returns:
     --------
@@ -350,6 +352,12 @@ def get_combinations(performance_path = './results/general/full_data_performance
     hyper_dict['algorithm'] = [algorithm_map[alg] for alg in hyper_dict['algorithm']]
 
     combinations = [[hyper_dict[key][i] for key in hyper_dict] for i in range(len(hyper_dict['algorithm']))]
+    
+    combinations_dict = {combinations[i][0].__name__:combinations[i] for i in range(len(combinations))}
+    
+    
+    if return_dict:
+        return combinations_dict
     
     return combinations
 

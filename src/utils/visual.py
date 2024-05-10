@@ -8,6 +8,17 @@ Here plotnine and matplotlib packages are used to create the plots. plotnine is 
 from plotnine import *
 import matplotlib.pyplot as plt
 from utils.get_parameters import max_score_for_each
+import joblib 
+# try xgboost
+import joblib
+
+import sys
+sys.path.append("../")
+
+from utils.metrics import get_performances
+from sklearn.metrics import confusion_matrix,ConfusionMatrixDisplay
+from utils.data_preparation import prepare_for_algorithm
+import pandas as pd
 
 #  performance for each algorithm
 
@@ -340,3 +351,96 @@ def plot_best_performed_counts(df,by=['Imputer','Imbalance','MainMetric'],set_='
     ax.set_xlabel("Score")
     
     return counts_of_the_best_perfomred
+
+
+
+# load the model
+
+def plot_results(performances_df,algorithm,df,set_='Test'):
+
+
+
+    """
+    Plot best results for a specific algorithm.
+    
+    Parameters:
+    -----------
+    performances_df: pd.DataFrame
+        The performances DataFrame.
+        
+    algorithm: str
+        The algorithm name.
+        
+    df: pd.DataFrame
+        The data.
+        
+    set: str
+        The set to plot. The default value is 'Test'
+        
+    Returns:
+    --------
+    model
+    
+    """
+    model = joblib.load(f"../models/{algorithm+'_best_model'}.pkl")
+
+
+    X_train,X_test,y_train,y_test,_,_,_ = prepare_for_algorithm(algorithm,df,performances_df)
+    
+    prediction = model.predict(X_test) if set == 'Test' else model.predict(X_train)
+
+    true = y_test if set == 'Test' else y_train
+    
+    performance = get_performances(true,prediction,return_dict=True,return_df=True)
+    conf_mat = confusion_matrix(prediction,true)
+
+    # confusion matrix
+    plt.figure()
+    disp = ConfusionMatrixDisplay(conf_mat)
+    disp.plot()
+    plt.title(f"Confusion matrix {algorithm}\n{set_} set")
+    
+    plt.show()
+
+    # performance metrics
+    # fig, ax = plt.subplots(1,1)
+    
+    plt.figure()
+    plt.bar(performance['Metric'],performance['Score'],color='orange')
+    
+    plt.xlabel("Performance Metric")
+    plt.ylabel("Score")
+    
+    for j, value in enumerate(performance.Score):  # Changed the variable name to j
+        plt.annotate(str(value), xy=(j,value), ha='center', va='bottom')
+    
+    
+    plt.title(f"Performance of {algorithm}\n {set_} set")
+    plt.show()
+    
+    try:
+        
+        plt.figure()
+        features = list(df.columns)
+        features.remove("CVD")
+        
+        importances = model.feature_importances_
+        importances = {features[i]:[round(importances[i]*100,4)] for i in range(len(features))}
+        importances_df = pd.DataFrame(importances).T.reset_index().rename(columns={"index":"Feature",0:"Importance"})
+        importances_df.sort_values("Importance",inplace=True)
+
+        # fig, ax = plt.subplots(1,1)
+
+        plt.barh(importances_df['Feature'],importances_df['Importance'])
+
+        for j, value in enumerate(importances_df.Importance):  # Changed the variable name to j
+            plt.annotate(str(value), xy=(value,j), ha='left', va='center')
+
+        plt.title(f"Feature importance by {algorithm}\n {set_} set")
+        plt.show()
+        
+    except Exception as e:
+        print(e)
+        pass
+    
+    return model 
