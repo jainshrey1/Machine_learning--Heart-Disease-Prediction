@@ -16,6 +16,7 @@ from imblearn.over_sampling import SMOTE,ADASYN
 from imblearn.under_sampling import AllKNN
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+import os
 
 from copy import deepcopy
 import pandas as pd
@@ -90,7 +91,15 @@ def train_models(path_to_save,path=None,df=None,target_var="CVD"):
     --------
     pd.DataFrame
         A dataframe with the results.
+        
     """
+    
+    if os.path.exists(path_to_save):
+        
+            ask = input(f"\n{path_to_save} already exists. Do you want to overwrite it? (y/[other key])")
+            
+            if ask.lower() != 'y':
+                return pd.read_csv(path_to_save)
     
     performance_df = {"Imputer":[],
                       "Imbalance":[],

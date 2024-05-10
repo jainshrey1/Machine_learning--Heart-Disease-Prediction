@@ -19,6 +19,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from copy import deepcopy
 
+import sys
+sys.path.append("../")
+from utils.get_parameters import get_combinations
+
 def balance_impute_data(balancer,imputer,data_path=None,df=None,test_size=.2,target='CVD'):
     
     
@@ -130,3 +134,45 @@ def balance_impute_data(balancer,imputer,data_path=None,df=None,test_size=.2,tar
 
     
     
+    
+def prepare_for_algorithm(algorithm,df,performances_df,by_features=['Algorithm','Metric'],by_metric='AUC',by_set='Test'):
+    
+    """
+    Prepare the data for a specific algorithm.
+    
+    Parameters:
+    -----------
+    algorithm: str
+        The algorithm name.
+
+    df: pd.DataFrame
+        The data.
+
+    performances_df: pd.DataFrame
+        The performances DataFrame.
+        
+    by_features: list
+        The features to group by. The default value is ['Algorithm','Metric']
+        
+    by_metric: str
+        The metric to use for grouping. The default value is 'AUC'
+        
+    by_set: str
+        The set to use for grouping. The default value is 'Test'
+        
+    Returns:
+    --------
+    tuple
+        A tuple with the train and test sets and the names of the imputers and balancer.  
+        (X_train,X_test,y_train,y_test,cat_imputer_name,num_imputer_name,balancer_name)
+    """
+    
+    combinations = get_combinations(df=performances_df,by_features=by_features,by_metric=by_metric,by_set=by_set,return_dict=True)
+    
+    combination = combinations[algorithm]
+    
+    _,imputer,balanc = combination
+    
+    X_train,X_test,y_train,y_test,cat_imputer_name,num_imputer_name,balancer_name = balance_impute_data(balancer=balanc,imputer=imputer,df=df)
+    
+    return X_train,X_test,y_train,y_test,cat_imputer_name,num_imputer_name,balancer_name

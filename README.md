@@ -23,7 +23,7 @@ policymakers. Ultimately, the research findings can potentially enhance patient 
       - **[__init__.py](src/utils/__init__.py)**:  Python package initialization
       - **[data_preparation.py](src/utils/data_preparation.py)**:  Utility function for data preparation
       - **[functions.py](src/utils/functions.py)**:  Utility function for best results combination
-      - **[get_parameters.py](src/utils/__init__.py)**:  Utility functions for parameters' combination collection 
+      - **[get_parameters.py](src/utils/get_parameters.py)**:  Utility functions for parameters' combination collection 
       - **[metrics.py](src/utils/metrics.py)**:  Utility function to evaluate model performance
       - **[search_model.py](src/utils/search_model.py)**:  Utility function to train default models with several combinations
       - **[visual.py](src/utils/visual.py)**:  Utility functions to plot models' performance results

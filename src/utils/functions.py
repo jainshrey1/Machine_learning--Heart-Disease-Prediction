@@ -5,6 +5,7 @@ This is a file for any addtional functions that are not part of the main pipelin
 from fnmatch import fnmatch
 import os
 import pandas as pd
+import json
 
 
 
@@ -55,6 +56,34 @@ def concat_results(root='../results/',dest_path='../results/general/best_results
     return full_df
 
 
+
+
+def get_best_params(path):
+    
+    """
+    Reads the best parameters from the JSON file. 
+    Converts in into DataFrame and returns it.
+    
+    Parameters:
+    -----------
+    path: str
+        The path to the JSON file.
+        
+    Returns:
+    --------
+    pd.DataFrame
+        The best parameters.
+    """
+    
+    
+    with open(path,'r') as f:
+        
+        best_params = json.load(f)
+        
+        best_params = {k:[v] for k,v in best_params.items()}    
+        
+        return pd.DataFrame(best_params).T.reset_index().rename(columns={'index':'Parameter',0:'Value'})
+    
 if __name__ == "__main__":
     
     concat_results()
